@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import os
 
 from Lab_apps._io.dat_finder import MOST_RECENT_FOLDER
 
@@ -10,5 +11,5 @@ class BotConfig:
     INACTIVITY_THRESHOLD = 250
     DYNAMIC_INACTIVITY_MULTIPLIER = 3
 
-    DISCORD_TOKEN = "MTQ0MDEwMjQxMDgyNjY4MjQyMA.GeZCGk.qzl2pAn_GfyXn9seyE57-O510IGjTZe9N8ZIxo"
+    DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     DISCORD_CHANNEL_ID = 1440145408620888114  
