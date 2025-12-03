@@ -13,5 +13,6 @@ class BotConfig:
 
     
     # MTQ0NTkwNjE2Mjg3NTc2MDc5Mw. GRgFDk. utLEQVHiwHTZONkCTbnJv7lytkoWqqZGnlWick   <- remove spaces
+    # $env:DISCORD_TOKEN = "BOT_TOKEN"
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     DISCORD_CHANNEL_ID = 1440145408620888114  
