@@ -7,8 +7,9 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Set, Tuple, List, Optional
 
-from Lab_apps._io.dat_finder import SCAN_FILE_PATTERN
-from Lab_apps.plot_bot.domain.config import BotConfig
+from _data_io.dat_finder import SCAN_FILE_PATTERN
+from apps.plot_bot.domain.config import BotConfig
+
 
 
 FileState = Tuple[int, float]  # (size in bytes, mtime)

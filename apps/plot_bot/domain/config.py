@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 import os
 
-from Lab_apps._io.dat_finder import MOST_RECENT_FOLDER
+from _data_io.dat_finder import MOST_RECENT_FOLDER
+
 
 @dataclass
 class BotConfig:
