@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Base_Lib"
+		}
+	],
+	"settings": {
+  "python.defaultInterpreterPath": "${workspaceFolder:Lab_Apps}\\.venv\\Scripts\\python.exe"
+}
+}
