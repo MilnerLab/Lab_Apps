@@ -14,8 +14,9 @@ def process_scan_file(file_path: Path) -> Path:
     png_path.parent.mkdir(parents=True, exist_ok=True)
     
     finder = DatFinder()
-    
-    if file_path == finder.find_scanfiles()[-1]:
+    print(file_path)
+    print(finder.find_scanfiles()[-1])
+    if file_path.stem == finder.find_scanfiles()[-1].stem:
         PlottingBotPlotting(
         finder,
         png_path,
