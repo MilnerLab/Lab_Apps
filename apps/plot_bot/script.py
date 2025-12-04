@@ -1,9 +1,9 @@
 # main.py
 
-from Lab_apps.plot_bot.monitoring.scan_detector import DirectoryWatcher
+from _data_io.dat_finder import SCAN_FILE_PATTERN
+from apps.plot_bot.domain.config import BotConfig
+from apps.plot_bot.monitoring.scan_detector import DirectoryWatcher
 from .bot.discord_bot import ScanDiscordBot
-from Lab_apps._io.dat_finder import SCAN_FILE_PATTERN
-from Lab_apps.plot_bot.domain.config import BotConfig
 
 
 def main() -> None:

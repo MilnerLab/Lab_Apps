@@ -1,9 +1,8 @@
 from pathlib import Path
 
 from _data_io.dat_finder import MOST_RECENT_FOLDER, DatFinder
-from _data_io.dat_loader import load_time_scan
-from plot_bot.domain.color_picker import pick_color
-from plot_bot.domain.plotting import PlottingBotPlotting
+from apps.plot_bot.domain.color_picker import pick_color
+from apps.plot_bot.domain.plotting import PlottingBotPlotting
 
 def process_scan_file(file_path: Path) -> Path:
     

@@ -7,9 +7,9 @@ from typing import Optional
 import discord
 from discord.ext import commands, tasks
 
-from Lab_apps.plot_bot.domain.config import BotConfig
-from Lab_apps.plot_bot.domain.pipeline import process_scan_file
-from Lab_apps.plot_bot.monitoring.scan_detector import DirectoryWatcher
+from apps.plot_bot.domain.config import BotConfig
+from apps.plot_bot.domain.pipeline import process_scan_file
+from apps.plot_bot.monitoring.scan_detector import DirectoryWatcher
 
 
 
