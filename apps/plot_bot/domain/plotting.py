@@ -9,10 +9,10 @@ import numpy as np
 from _data_io.dat_finder import DatFinder
 from _data_io.dat_loader import load_time_scans
 from _domain.models import LoadableScanData
-from apps.c2t_calculation.domain.config import AnalysisConfig
 from apps.scan_averaging.domain.averaging import average_scans
 from apps.scan_averaging.domain.plotting import plot_averaged_scan
 from apps.single_scan.domain.plotting import plot_single_scan
+from apps.stft_analysis.domain.config import AnalysisConfig
 from apps.stft_analysis.domain.plotting import plot_Spectrogram, plot_nyquist_frequency
 from apps.stft_analysis.domain.resampling import resample_scans
 from apps.stft_analysis.domain.stft_calculation import calculate_averaged_spectrogram
