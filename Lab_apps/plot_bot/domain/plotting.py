@@ -39,6 +39,8 @@ class PlottingBotPlotting:
         self.output_path = output_path
         self.color_cos2 = color_cos2
         self.color_ions = color_ions
+        
+        self.plot_double()
     
     def plot_double(self):
         fig, (ax_scan, ax_spec) = plt.subplots(
