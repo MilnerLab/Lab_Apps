@@ -6,7 +6,7 @@ from base_lib.models import Frequency, PlotColor, Prefix, Range
 from _domain.models import ScanDataBase
 
 
-def plot_Spectrogram(ax: Axes, data: SpectrogramBase, v_range: Range[float] = Range(0, 0.2)) -> None:
+def plot_Spectrogram(ax: Axes, data: SpectrogramBase, v_range: Range[float] = Range(0, 1)) -> None:
     
     delay = [d.value(Prefix.PICO) for d in data.delay]
     frequency = [f.value(Prefix.GIGA) for f in data.frequency]

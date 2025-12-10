@@ -10,7 +10,7 @@ class DatFinder:
         self.folder_path = folder_path
         self.batch_finished = False
         
-    def find_scanfiles(self) -> list[Path]:
+    def find_scanfiles(self,mergescans = False) -> list[Path]:
         file_list: list[Path] = sorted(self.folder_path.glob(SCAN_FILE_PATTERN))
 
         if not file_list:
@@ -21,7 +21,10 @@ class DatFinder:
 
             if txt_files:
                 newest_batch_stem = txt_files[-1].stem
-                file_list = [f for f in file_list if f.stem >= newest_batch_stem]
+                if mergescans == True:
+                    file_list = [f for f in file_list]
+                else:
+                    file_list = [f for f in file_list if f.stem >= newest_batch_stem]
 
             if not file_list:
                 return []
