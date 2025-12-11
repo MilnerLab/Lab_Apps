@@ -37,5 +37,10 @@ def plot_ScanData(ax: Axes, data: ScanDataBase, label:str, color: PlotColor = Pl
 def plot_GaussianFit(ax: Axes, data: ScanDataBase) -> None:
     gauss = fit_gaussian(data.delay, [c2t.value for c2t in data.c2t])
     
-    ax.plot([time.value(Prefix.PICO) for time in data.delay], [y for y in gauss.get_curve(data.delay)])
+    resampling_const = len(data.delay) * 100
+    
+    y = [y for y in gauss.get_curve(np.linspace(data.delay[0], data.delay[-1], resampling_const))]
+    x = np.linspace(data.delay[0].value(Prefix.PICO), data.delay[-1].value(Prefix.PICO), resampling_const)
+    
+    ax.plot(x, y)
     

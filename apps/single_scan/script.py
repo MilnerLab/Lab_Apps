@@ -5,15 +5,22 @@ from matplotlib import pyplot as plt
 from _data_io.dat_finder import DatFinder
 from _data_io.dat_loader import load_time_scan
 from apps.single_scan.domain.plotting import plot_single_scan
-
+from base_lib.models import PlotColor
 
 '''
-file_path = find_most_recent_scanfile()
+
+file_path = file_path = Path("Z:\\Droplets\\20251210\\JS1_Scanfiles\\20251210132842_ScanFile.dat")
 
 scan_data = load_time_scan(file_path)
 
 fig, ax = plt.subplots(figsize=(8, 4))
 plot_single_scan(ax, scan_data)
+
+file_path = file_path = Path("Z:\\Droplets\\20251210\\JS1_Scanfiles\\20251210141036_ScanFile.dat")
+
+scan_data = load_time_scan(file_path)
+
+plot_single_scan(ax, scan_data, data_color=PlotColor.GREEN)
 
 ax.legend(loc="upper right")
 fig.tight_layout()
@@ -22,7 +29,7 @@ plt.show()
 
 def main() -> None:
     file_path = DatFinder().find_most_recent_scanfile()
-    #file_path = Path("Z:\\Droplets\\20251203192727_ScanFile.dat")
+    #file_path = Path("Z:\\Droplets\\20251210132842_ScanFile.dat")
 
     fig, ax = plt.subplots(figsize=(8, 4))
     plt.subplots_adjust(bottom=0.2)  
