@@ -5,6 +5,7 @@ import numpy as np
 from _domain.config import DELAY_STAGE_CENTER_VALUE
 from _domain.models import C2TData, IonData, LoadableScanData
 from base_lib.models import Length, Point, Prefix, Time
+import base_lib.constants as const
 
 
 
@@ -89,7 +90,6 @@ def extrect_infos_from_name(path: Path) -> tuple[int, Time]:
 
 
 def calculate_time_delay(stage_position: Length) -> Time:
-    c = 299_792_458  
     delta = (stage_position - DELAY_STAGE_CENTER_VALUE) * 2
 
-    return Time(delta / c)
+    return Time(delta / const.SPEED_OF_LIGHT)
