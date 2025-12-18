@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from base_lib.models import PlotColor
 from _data_io.dat_finder import SCAN_FILE_PATTERN
+from base_lib.plotting.enums import PlotColor
 
 
 def pick_color(file_path: Path, num_color=1) -> PlotColor:

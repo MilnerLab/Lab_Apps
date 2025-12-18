@@ -6,7 +6,6 @@ from apps.stft_analysis.domain.config import AnalysisConfig
 from apps.stft_analysis.domain.plotting import plot_Spectrogram, plot_nyquist_frequency
 from apps.stft_analysis.domain.resampling import resample_scans
 from apps.stft_analysis.domain.stft_calculation import calculate_averaged_spectrogram
-from base_lib.models import Prefix, Time
 from _data_io.dat_finder import DatFinder
 from _data_io.dat_loader import load_time_scan, load_time_scans
 

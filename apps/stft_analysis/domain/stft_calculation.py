@@ -1,10 +1,10 @@
 from pathlib import Path
+from base_lib.quantities.models import Frequency, Time
 import numpy as np
 from scipy.signal import stft, detrend
 
 from apps.stft_analysis.domain.config import AnalysisConfig
 from apps.stft_analysis.domain.models import AggregateSpectrogram, ResampledScan, SpectrogramResult
-from base_lib.models import Frequency, Time, Prefix
 
 BACKUP_WINDFRACT = 2
 

@@ -1,8 +1,8 @@
 
 from pathlib import Path
 from apps.c2t_calculation.domain.config import AnalysisConfig
-from base_lib.models import Time
 from _domain.models import C2TData, IonData, LoadableScanData
+from base_lib.quantities.models import Time
 
 
 def run_pipeline(ion_data: IonData, config: AnalysisConfig) -> IonData:

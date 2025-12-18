@@ -1,7 +1,8 @@
 from matplotlib.axes import Axes
+from base_lib.plotting.enums import PlotColor
+from base_lib.quantities.enums import Prefix
 import numpy as np
 
-from base_lib.models import PlotColor, Prefix
 from _domain.models import LoadableScanData
 from _domain.plotting import plot_ScanData
 

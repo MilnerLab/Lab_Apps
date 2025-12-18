@@ -5,9 +5,10 @@ from _data_io.dat_loader import load_ion_data
 from apps.c2t_calculation.domain.config import AnalysisConfig
 from apps.c2t_calculation.domain.pipeline import run_pipeline_for_multiple
 from apps.c2t_calculation.domain.plotting import plot_calculated_scan, plot_ions_square
-from base_lib.models import Angle, AngleUnit, Length, Point, Range
 from _data_io.dat_finder import DatFinder
 from _data_io.dat_saver import create_save_path_for_calc_ScanFile
+from base_lib.math.enums import AngleUnit
+from base_lib.math.models import Angle, Point, Range
 
 
 folder_path = Path(r"/mnt/valeryshare/Droplets/20251215/DScan2")

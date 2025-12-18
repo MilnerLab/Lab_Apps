@@ -1,9 +1,10 @@
 # domain/resampling.py
+from base_lib.math.models import Range
+from base_lib.quantities.models import Time
 import numpy as np
 from scipy.interpolate import CubicSpline
 
 from apps.stft_analysis.domain.models import ResampledScan
-from base_lib.models import Range, Time
 from _domain.models import C2TData, LoadableScanData
 
 def resample_scan(raw: LoadableScanData, axis: list[Time]) -> ResampledScan:

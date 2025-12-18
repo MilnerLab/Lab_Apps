@@ -1,10 +1,12 @@
 # io/dat_loader.py
 from pathlib import Path
+from base_lib.math.models import Point
+from base_lib.quantities.enums import Prefix
+from base_lib.quantities.models import Length, Time
 import numpy as np
 
 from _domain.config import DELAY_STAGE_CENTER_VALUE
 from _domain.models import C2TData, IonData, LoadableScanData
-from base_lib.models import Length, Point, Prefix, Time
 import base_lib.constants as const
 
 

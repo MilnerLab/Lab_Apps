@@ -1,9 +1,10 @@
 from matplotlib.axes import Axes
+from base_lib.plotting.enums import PlotColor
+from base_lib.quantities.enums import Prefix
 import numpy as np
 from _domain.models import ScanDataBase
 from base_lib.fitting import fit_gaussian
 
-from base_lib.models import PlotColor, Prefix
 
 def plot_ScanData(ax: Axes, data: ScanDataBase, label:str, color: PlotColor = PlotColor.RED) -> None:
     x = [time.value(Prefix.PICO) for time in data.delay]

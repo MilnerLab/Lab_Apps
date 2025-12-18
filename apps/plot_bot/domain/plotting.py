@@ -4,6 +4,9 @@ from pathlib import Path
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from base_lib.plotting.enums import PlotColor
+from base_lib.quantities.enums import Prefix
+from base_lib.quantities.models import Time
 import numpy as np
 
 from _data_io.dat_finder import DatFinder
@@ -16,7 +19,6 @@ from apps.stft_analysis.domain.config import AnalysisConfig
 from apps.stft_analysis.domain.plotting import plot_Spectrogram, plot_nyquist_frequency
 from apps.stft_analysis.domain.resampling import resample_scans
 from apps.stft_analysis.domain.stft_calculation import calculate_averaged_spectrogram
-from base_lib.models import PlotColor, Prefix, Time
 
 SPECTROGRAM_THRESHOLD = Time(10, Prefix.PICO)
 

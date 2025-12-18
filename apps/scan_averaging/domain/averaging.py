@@ -1,4 +1,5 @@
 from typing import List
+from base_lib.quantities.models import Time
 import numpy as np
 
 
@@ -10,7 +11,6 @@ import numpy as np
 
 from _domain.models import C2TData, LoadableScanData
 from apps.scan_averaging.domain.models import AveragedScansData
-from base_lib.models import Time
 
 
 from typing import List

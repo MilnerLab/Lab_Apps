@@ -1,9 +1,9 @@
 # domain/config.py
 from dataclasses import dataclass
 
+from base_lib.quantities.models import Time
 import numpy as np
 
-from base_lib.models import Range, Time
 from _domain.models import LoadableScanData
 
 @dataclass

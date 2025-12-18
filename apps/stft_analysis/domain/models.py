@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from pathlib import Path
+from base_lib.math.models import Range
+from base_lib.quantities.models import Frequency, Time
 import numpy as np
 
-from base_lib.models import Frequency, Range, Time
 from _domain.models import  ScanDataBase
 
 @dataclass(frozen=True)

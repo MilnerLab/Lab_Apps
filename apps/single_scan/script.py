@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 from _data_io.dat_finder import DatFinder
 from _data_io.dat_loader import load_time_scan
 from apps.single_scan.domain.plotting import plot_single_scan
-from base_lib.models import PlotColor
 
 '''
 
