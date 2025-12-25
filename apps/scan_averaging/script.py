@@ -8,16 +8,25 @@ from _domain.plotting import plot_GaussianFit
 from apps.scan_averaging.domain.averaging import average_scans
 from apps.scan_averaging.domain.models import AveragedScansData
 from apps.scan_averaging.domain.plotting import plot_averaged_scan
+from base_core.plotting.enums import PlotColor
 
-folder_path = Path(r"/mnt/valeryshare/Droplets/20251215/DScan4+5")
+folder_path = Path(r"/mnt/valeryshare/Droplets/20251215/DScan4_ScanFiles")
+file_paths = DatFinder().find_scanfiles()
+
+averagedScanData = average_scans(load_time_scans(file_paths))
+
+new = ScanDataBase(averagedScanData.delay[2:], averagedScanData.c2t[2:])
+fig, ax = plt.subplots(figsize=(8, 4))
+plot_averaged_scan(ax, averagedScanData)
+plot_GaussianFit(ax, new)
+
 file_paths = DatFinder(folder_path).find_scanfiles()
 
 averagedScanData = average_scans(load_time_scans(file_paths))
 
-new = ScanDataBase(averagedScanData.delay[4:], averagedScanData.c2t[4:])
-fig, ax = plt.subplots(figsize=(8, 4))
-plot_averaged_scan(ax, averagedScanData)
-#plot_GaussianFit(ax, new)
+new = ScanDataBase(averagedScanData.delay[2:], averagedScanData.c2t[2:])
+plot_averaged_scan(ax, averagedScanData, PlotColor.GREEN)
+plot_GaussianFit(ax, new)
 
 fig.suptitle('Droplets', fontsize=12)
 ax.legend(loc="upper right")
