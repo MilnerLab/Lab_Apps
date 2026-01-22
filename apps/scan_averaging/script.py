@@ -20,11 +20,12 @@ averagedScanData = average_scans(load_time_scans(file_paths))
 
 
 fig, ax = plt.subplots(figsize=(8, 4))
-plot_averaged_scan(ax, averagedScanData, label=" -> horizontal GA")
-ax.tick_params(axis="y", colors=PlotColor.RED)
+plot_averaged_scan(ax, averagedScanData, PlotColor.BLUE, label=" -> horizontal GA")
+ax.tick_params(axis="y", colors=PlotColor.BLUE)
 #plot_GaussianFit(ax, new)
 
-file_paths = DatFinder().find_scanfiles(True)
+folder_path = Path(r"/mnt/valeryshare/Droplets/20260120/All good cfg randomized scans")
+file_paths = DatFinder(folder_path).find_scanfiles(True)
 
 averagedScanData = average_scans(load_time_scans(file_paths))
 ax_r = ax.twinx()     
@@ -36,6 +37,7 @@ fig.suptitle('Droplets', fontsize=12)
 ax.legend(loc="upper left")
 ax_r.legend(loc="upper right")
 fig.tight_layout()
+plt.grid(True) 
 plt.show()
 
 

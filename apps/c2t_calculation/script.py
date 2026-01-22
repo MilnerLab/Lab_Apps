@@ -12,7 +12,7 @@ from base_core.math.enums import AngleUnit
 from base_core.math.models import Angle, Point, Range
 
 
-folder_path = Path(r"/mnt/valeryshare/Droplets/20260102/Scan4")
+folder_path = Path(r"/home/soeren/Downloads/20260112_jet_raw and scanfiles/20260112_Jet_raw/JetScan4+5")
 file_paths = DatFinder(folder_path).find_datafiles()
 
 config = AnalysisConfig(

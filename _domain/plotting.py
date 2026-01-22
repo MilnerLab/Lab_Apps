@@ -11,12 +11,12 @@ def plot_ScanData(ax: Axes, data: ScanDataBase, label:str, color: PlotColor = Pl
     y = np.array([c.value for c in data.c2t])
     error = np.array([c.error for c in data.c2t])
 
-    '''ax.plot(
+    ax.plot(
         x,
         y,
         color=color,
         label=label,
-    )'''
+    )
     ax.errorbar(
         x,
         y,

@@ -57,9 +57,6 @@ def load_time_scans(paths: list[Path]) -> list[LoadableScanData]:
     return scanDatas
 
 
-from pathlib import Path
-import numpy as np
-
 def load_ion_data(paths: list[Path]) -> list[IonData]:
     output: list[IonData] = []
     idx_by_delay: dict[Time, int] = {}  
@@ -77,8 +74,11 @@ def load_ion_data(paths: list[Path]) -> list[IonData]:
         else:
             idx_by_delay[delay] = len(output)
             output.append(IonData(run_id, delay, points))
-
+            
+    output.sort(key=lambda x: x.delay)
+    
     return output
+
 
 
 
