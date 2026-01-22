@@ -145,7 +145,7 @@ raw_folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRot
 file_paths = DatFinder(raw_folder_path_a).find_datafiles()
 
 config = AnalysisConfig(
-    center=Point(191.032, 213.716),
+    center=Point(213.716,191.032),
     angle= Angle(12, AngleUnit.DEG),
     analysis_zone= Range[int](15, 120),
     transform_parameter= 0.75)
