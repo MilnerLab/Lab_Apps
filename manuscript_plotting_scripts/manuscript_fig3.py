@@ -114,13 +114,13 @@ mpl.rcParams.update({
 #merge the following paths
 folder_path_a = Path(r"Y:\Droplets\20260112\Scan4_ScanFiles") #ValeryShare drive
 #folder_path_a2 = Path(r"Y:\Droplets\20260112\Scan5_ScanFiles")
-
 folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260112_Jet\Scan4+Scan5") #Ian's desktop
 
+
+#for b there are two plots....
 #Folder for droplet scan with phase-averaged centrifuge
 folder_path_b_cfg = Path(r"C:\Users\camp06\Documents\droplets_manuscript\fig3b_data\cfg") #Cameron's desktop
 folder_path_b_cfg = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\202601_Droplets_CFG_AVG") #Ian's desktop
-
 
 #Folder for droplet scan with horizontally polarized arm
 folder_path_b_hor = Path(r"Y:\Droplets\20260119\Scan1_ScanFiles") #ValeryShare drive
@@ -131,7 +131,7 @@ folder_path_b_hor = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRot
 
 #Path to save figure in
 fig_filedir = r"C:/Users/camp06/Documents/droplets_manuscript/" #Cameron's desktop
-fig_filedir = r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Code\Figure_Dumping" #Ian's desktop
+fig_filedir = r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Code\Figure_Dumping\\" #Ian's desktop
 
 fig_filename = fig_filedir + r"figure3.pdf"
 file_path_a = DatFinder(folder_path_a).find_scanfiles()
