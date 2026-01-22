@@ -61,7 +61,7 @@ def load_ion_data(paths: list[Path], delay_center: Length) -> list[IonData]:
     idx_by_delay: dict[Time, int] = {}  
 
     for path in sorted(paths):
-        run_id, delay = extract_infos_from_name(path)
+        run_id, delay = extract_infos_from_name(path,delay_center)
 
         arr = np.loadtxt(path, usecols=(1, 2))
         arr = np.atleast_2d(arr)  

@@ -7,9 +7,9 @@ from _domain.models import LoadableScanData
 from _domain.plotting import plot_ScanData
 
 
-def plot_single_scan(ax: Axes, data: LoadableScanData, show_ions: bool = False, data_color: PlotColor = PlotColor.RED, ion_color: PlotColor = PlotColor.GRAY) -> None:
+def plot_single_scan(ax: Axes, data: LoadableScanData, show_ions: bool = False, data_color: PlotColor = PlotColor.RED, ecolor: PlotColor = PlotColor.BLACK, ion_color: PlotColor = PlotColor.GRAY) -> None:
     label = f"{data.file_path.stem}"
-    plot_ScanData(ax, data, label, data_color)
+    plot_ScanData(ax, data, label, data_color,ecolor)
 
     if data.ions_per_frame is None:
         return

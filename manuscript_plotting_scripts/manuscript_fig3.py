@@ -146,9 +146,10 @@ file_paths = DatFinder(raw_folder_path_a).find_datafiles()
 
 config = AnalysisConfig(
     delay_center = Length(98.054, Prefix.MILLI),
-    center=Point(213.716,191.032),
+#    center=Point(213.716,191.032), #what was used in scanfiles
+    center=Point(211.5,191), #gives a nice 0.5 for the first point
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](15, 120),
+    analysis_zone= Range[int](20, 120),
     transform_parameter= 0.75)
 
 ion_data = load_ion_data(file_paths,config.delay_center)
@@ -170,8 +171,8 @@ calculated_Scan = run_pipeline(ion_data,config, raw_folder_path_a)
 
 #Figure stuff below here
 fig3, (ax3a,ax3b) = plt.subplots(2,1)
-plot_averaged_scan(ax3a, averagedScanData_a, color=PlotColor.BLUE,ecolor=PlotColor.BLUE)
-plot_single_scan(ax3a, calculated_Scan, data_color=PlotColor.RED)
+#plot_averaged_scan(ax3a, averagedScanData_a, color=PlotColor.BLUE,ecolor=PlotColor.BLUE) #Scanfiles
+plot_single_scan(ax3a, calculated_Scan, data_color=PlotColor.RED,ecolor=PlotColor.GREEN) #Raw ions
 plot_averaged_scan(ax3b,averagedScanData_b_cfg,color=PlotColor.GREEN,ecolor=PlotColor.GREEN)
 plot_averaged_scan(ax3b,averagedScanData_b_hor,PlotColor.RED,ecolor=PlotColor.RED)
 
