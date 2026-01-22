@@ -6,7 +6,6 @@ from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
 import numpy as np
 
-from _domain.config import DELAY_STAGE_CENTER_VALUE
 from _domain.models import C2TData, IonData, LoadableScanData
 
 
