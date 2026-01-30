@@ -65,6 +65,47 @@ class PlottingBotPlotting:
             ax_spec.legend(loc="upper right")
         
         self.end(fig)
+        
+    def plot_double(self):
+        use_spec = np.mean(np.abs(np.diff(self.current_scan.delay))) < SPECTROGRAM_THRESHOLD
+
+        if use_spec:
+            fig, (ax_scan, ax_avg, ax_spec) = plt.subplots(
+                nrows=3,
+                ncols=1,
+                figsize=(10, 10),
+                sharex=True,
+                constrained_layout=True,
+            )
+
+            plot_single_scan(ax_scan, self.current_scan, True, self.color_cos2, self.color_data_ions)
+            ax_scan.legend(loc="upper right")
+
+            averagedScanData = average_scans(self.scans)
+            plot_averaged_scan(ax_avg, averagedScanData, PlotColor.PURPLE)
+            ax_avg.legend(loc="upper right")
+
+            self.add_Spectrogram(ax_spec, self.scans)
+            ax_spec.legend(loc="upper left")
+
+        else:
+            fig, (ax_scan, ax_avg) = plt.subplots(
+                nrows=2,
+                ncols=1,
+                figsize=(10, 8),
+                sharex=True,
+                constrained_layout=True,
+            )
+
+            plot_single_scan(ax_scan, self.current_scan, True, self.color_cos2, self.color_data_ions)
+            ax_scan.legend(loc="upper right")
+
+            averagedScanData = average_scans(self.scans)
+            plot_averaged_scan(ax_avg, averagedScanData)
+            ax_avg.legend(loc="upper right")
+
+        self.end(fig)
+
     
     '''
     def plot_single(self):
