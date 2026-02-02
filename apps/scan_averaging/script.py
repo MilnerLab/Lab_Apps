@@ -12,6 +12,7 @@ from base_core.plotting.enums import PlotColor
 from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Time
 
+'''
 
 folder_path = Path(r"/mnt/valeryshare/Droplets/20260119/Scan1_ScanFiles")
 file_paths = DatFinder(folder_path).find_scanfiles()
@@ -44,7 +45,7 @@ plt.show()
 '''
 
 folder_path = Path(r"/home/soeren/Downloads/all cfg scans")
-file_paths = DatFinder().find_scanfiles(mergescans=True)
+file_paths = DatFinder().find_scanfiles()
 
 averagedScanData = average_scans(load_time_scans(file_paths))
 fig, ax = plt.subplots(figsize=(8, 4))
@@ -54,4 +55,3 @@ fig.suptitle('Droplets', fontsize=12)
 ax.legend(loc="upper left")
 fig.tight_layout()
 plt.show()
-'''
