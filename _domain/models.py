@@ -48,6 +48,9 @@ class IonData:
         self.c2t = C2TData(mean, sem)
         
     def apply_config(self, config: IonDataAnalysisConfig):
+        
+                
+        
         for point in self.points:
             point.subtract(config.center)
             point.affine_transform(config.transform_parameter)
