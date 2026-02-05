@@ -6,8 +6,8 @@ from _domain.plotting import plot_ScanData
 
 
 
-def plot_calculated_scan(ax: Axes, data: LoadableScanData) -> None:
-    label = f"{data.file_path.stem}"
+def plot_calculated_scan(ax: Axes, data: LoadableScanData,label:str = '') -> None:
+    #label = f"{data.file_path.stem}"
     plot_ScanData(ax, data, label)
 
 def plot_ions_square(

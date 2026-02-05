@@ -126,7 +126,7 @@ config = StftAnalysisConfig(scan_data)
 resampled_scans = resample_scans(scan_data, config.axis)
 spectrogram = calculate_averaged_spectrogram(resampled_scans, config)
 
-fig, (ax2a,ax2b) = plt.subplots(2,1)
+fig, (ax2a,ax2b) = plt.subplots(2,1,sharex=True)
 plot_averaged_scan(ax2a, averagedScanData, PlotColor.BLUE)
 plot_Spectrogram(ax2b, spectrogram)
 
@@ -143,11 +143,12 @@ xlimits = {
     "vmin": -200,
     "vmax": 200
 }
-#ax2b.xaxis.set_major_locator(mpl.ticker.MultipleLocator(100))
-#ax2b.xaxis.set_major_locator(mpl.ticker.LinearLocator(numticks=5,presets=xlimits))
-#ax2b.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
-#ax2b.yaxis.set_major_locator(mpl.ticker.LinearLocator(numticks=3,presets=limits))
-
+ax2b.set_ylim((0,125))
+""" ax2b.xaxis.set_major_locator(mpl.ticker.MultipleLocator(100))
+ax2b.xaxis.set_major_locator(mpl.ticker.LinearLocator(numticks=5,presets=xlimits))
+ax2b.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
+ax2b.yaxis.set_major_locator(mpl.ticker.LinearLocator(numticks=3,presets=ylimits))
+ """
 
 ax2b.grid(False) 
 #ax2b.pcolormesh.cmap('magma')

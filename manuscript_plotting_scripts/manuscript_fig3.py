@@ -115,11 +115,11 @@ mpl.rcParams.update({
 
 #stylefile = r"C:\Users\camp06\Documents\droplets_manuscript\physrev.mplstyle"
 #plt.style.use(stylefile)
-#folder_path_a = Path(r"C:/Users/camp06/Documents/droplets_manuscript/20251128 120psi jet - Scan4_ScanFiles(figure3a)/Scan4_ScanFiles")
+folder_path_a = Path(r"C:/Users/camp06/Documents/droplets_manuscript/20251128 120psi jet - Scan4_ScanFiles(figure3a)/Scan4_ScanFiles")
 #merge the following paths
-folder_path_a = Path(r"Y:\Droplets\20260112\Scan4_ScanFiles") #ValeryShare drive
+#folder_path_a = Path(r"Z:\Droplets\20260112\Scan4_ScanFiles") #ValeryShare drive
 #folder_path_a2 = Path(r"Y:\Droplets\20260112\Scan5_ScanFiles")
-folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260112_Jet\Scan4+Scan5") #Ian's desktop
+#folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260112_Jet\Scan4+Scan5") #Ian's desktop
 
 #Raw ion data for a... 
 
@@ -127,24 +127,25 @@ folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotatio
 #for b there are two plots....
 #Folder for droplet scan with phase-averaged centrifuge
 folder_path_b_cfg = Path(r"C:\Users\camp06\Documents\droplets_manuscript\fig3b_data\cfg") #Cameron's desktop
-folder_path_b_cfg = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\202601_Droplets_CFG_AVG") #Ian's desktop
+#folder_path_b_cfg = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\202601_Droplets_CFG_AVG") #Ian's desktop
 
 #Folder for droplet scan with horizontally polarized arm
-folder_path_b_hor = Path(r"Y:\Droplets\20260119\Scan1_ScanFiles") #ValeryShare drive
-folder_path_b_hor = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260119_Droplets_H\Scan1_ScanFiles") #Ian's desktop
+#folder_path_b_hor = Path(r"Y:\Droplets\20260119\Scan1_ScanFiles") #ValeryShare drive
+#folder_path_b_hor = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260119_Droplets_H\Scan1_ScanFiles") #Ian's desktop
 
 #folder_path_a = Path(r"Y:\Droplets\20251128") #should merge scans 2-5 to have consistent jet pressure of 120psi 
 #folder_path_b = Path(r"Y:\Droplets\20251215")
 
 #Path to save figure in
 fig_filedir = r"C:/Users/camp06/Documents/droplets_manuscript/" #Cameron's desktop
-fig_filedir = r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Code\Figure_Dumping\\" #Ian's desktop
+#fig_filedir = r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Code\Figure_Dumping\\" #Ian's desktop
 
-raw_folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260112_Jet_raw\JetScan4+5") #Ian's desktop
+#raw_folder_path_a = Path(r"C:\Users\Ian\Dropbox\Postdoc_DB\PD_Data\CS2_ForcedRotation\20260112_Jet_raw\JetScan4+5") #Ian's desktop
 
 #All user input stuff above here
 
-file_paths = DatFinder(raw_folder_path_a).find_datafiles()
+#file_paths = DatFinder(raw_folder_path_a).find_datafiles()
+#file_paths = DatFinder(folder_path_a).find_datafiles()
 
 config = IonDataAnalysisConfig(
     delay_center = Length(98.054, Prefix.MILLI),
@@ -154,36 +155,37 @@ config = IonDataAnalysisConfig(
     analysis_zone= Range[int](20, 120),
     transform_parameter= 0.75)
 
-ion_data = load_ion_data(file_paths,config.delay_center)
+#ion_data = load_ion_data(file_paths,config.delay_center)
 
 
 
 fig_filename = fig_filedir + r"figure3.pdf"
 file_path_a = DatFinder(folder_path_a).find_scanfiles()
 file_path_b_cfg = DatFinder(folder_path_b_cfg).find_scanfiles()
-file_path_b_hor = DatFinder(folder_path_b_hor).find_scanfiles()
+#file_path_b_hor = DatFinder(folder_path_b_hor).find_scanfiles()
 
 averagedScanData_a = average_scans(load_time_scans(file_path_a))
 averagedScanData_b_cfg = average_scans(load_time_scans(file_path_b_cfg))
-averagedScanData_b_hor = average_scans(load_time_scans(file_path_b_hor))
+#averagedScanData_b_hor = average_scans(load_time_scans(file_path_b_hor))
 
-calculated_Scan = run_pipeline(ion_data,config, raw_folder_path_a)
+#calculated_Scan = run_pipeline(ion_data,config, raw_folder_path_a)
 
 
 
 #Figure stuff below here
-fig3, (ax3a,ax3b) = plt.subplots(2,1)
-#plot_averaged_scan(ax3a, averagedScanData_a, color=PlotColor.BLUE,ecolor=PlotColor.BLUE) #Scanfiles
-plot_single_scan(ax3a, calculated_Scan, data_color=PlotColor.BLACK,ecolor=PlotColor.RED,marker='o') #Raw ions
+fig3, (ax3a,ax3b) = plt.subplots(2,1,sharex=True,gridspec_kw={'hspace': 0})
+plot_averaged_scan(ax3a, averagedScanData_a, color=PlotColor.BLUE,ecolor=PlotColor.BLUE) #Scanfiles
+#plot_single_scan(ax3a, calculated_Scan, data_color=PlotColor.BLACK,ecolor=PlotColor.RED,marker='o') #Raw ions
 
 plot_averaged_scan(ax3b,averagedScanData_b_cfg,color=PlotColor.BLUE,ecolor=PlotColor.RED,marker='o')
-plot_averaged_scan(ax3b,averagedScanData_b_hor,PlotColor.GRAY,ecolor=PlotColor.GRAY,marker='d')
+#plot_averaged_scan(ax3b,averagedScanData_b_hor,PlotColor.GRAY,ecolor=PlotColor.GRAY,marker='d')
 
 
-ax3a.yaxis.set_major_locator(mpl.ticker.MultipleLocator(0.02)) 
-ax3a.xaxis.set_major_locator(mpl.ticker.MultipleLocator(250))
+#ax3a.yaxis.set_major_locator(mpl.ticker.MultipleLocator(0.02)) 
+#ax3a.xaxis.set_major_locator(mpl.ticker.MultipleLocator(250))
 ax3b.yaxis.set_major_locator(mpl.ticker.MultipleLocator(0.02)) 
 ax3b.xaxis.set_major_locator(mpl.ticker.MultipleLocator(250))
+
 ax3a.text(
     0.02, 0.95, r'\textbf{(a)}',
     transform=ax3a.transAxes,
@@ -195,6 +197,8 @@ ax3b.text(
     va='top'
 )
 
+ax3a.set_xlabel("")
+ax3a.tick_params(axis='x', direction='in',labelbottom=False)
 #fig.suptitle("120 PSI Jet")
 fig3.savefig(fig_filename,format='pdf')
 #plt.grid(which='major',axis='both')
