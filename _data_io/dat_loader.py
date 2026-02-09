@@ -1,12 +1,13 @@
 # io/dat_loader.py
 from pathlib import Path
+from apps.c2t_calculation.domain.config import IonDataAnalysisConfig
 from base_core.math.models import Point
 from base_core.quantities.constants import SPEED_OF_LIGHT
 from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
 import numpy as np
 
-from _domain.models import C2TData, IonData, LoadableScanData
+from _domain.models import C2TData, IonData, LoadableScanData, RawScanData
 
 
 
@@ -56,28 +57,36 @@ def load_time_scans(paths: list[Path]) -> list[LoadableScanData]:
     return scanDatas
 
 
-def load_ion_data(paths: list[Path], delay_center: Length) -> list[IonData]:
-    output: list[IonData] = []
-    idx_by_delay: dict[Time, int] = {}  
-
-    for path in sorted(paths):
-        run_id, delay = extract_infos_from_name(path,delay_center)
-
-        arr = np.loadtxt(path, usecols=(1, 2))
-        arr = np.atleast_2d(arr)  
-
-        points = [Point(float(x), float(y)) for x, y in arr]
-
-        if delay in idx_by_delay:
-            output[idx_by_delay[delay]].points.extend(points)
-        else:
-            idx_by_delay[delay] = len(output)
-            output.append(IonData(run_id, delay, points))
-            
-    output.sort(key=lambda x: x.delay)
+def load_ion_data(scans_paths: list[list[Path]], configs: list[IonDataAnalysisConfig]) -> list[RawScanData]:
     
-    return output
+    if len(scans_paths) != len(configs):
+        raise ValueError("No distinct assignment possible.")
+    
+    raw_scans: list[RawScanData] = []
+    
+    for i in range(len(scans_paths)):
+        output: list[IonData] = []
+        idx_by_delay: dict[Time, int] = {}  
 
+        for path in sorted(scans_paths[i]):
+            run_id, delay = extract_infos_from_name(path,configs[i].delay_center)
+
+            arr = np.loadtxt(path, usecols=(1, 2))
+            arr = np.atleast_2d(arr)  
+
+            points = [Point(float(x), float(y)) for x, y in arr]
+
+            if delay in idx_by_delay:
+                output[idx_by_delay[delay]].points.extend(points)
+            else:
+                idx_by_delay[delay] = len(output)
+                output.append(IonData(run_id, delay, points))
+                
+        output.sort(key=lambda x: x.delay)
+        
+        raw_scans.append(RawScanData(output, configs[i]))
+
+    return raw_scans
 
 
 
