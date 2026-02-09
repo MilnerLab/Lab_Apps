@@ -11,42 +11,44 @@ BATCH_PATTERN = '*ScanFile.txt'
 ION_FILE_PATTERN = '*mm.dat'
 
 class DatFinder:
-    def __init__(self, folder_path: Path = MOST_RECENT_FOLDER):
-        self.folder_path = folder_path
-        self.batch_finished = False
+    def __init__(self, folder_paths: Path | list[Path] | None = None):
+        if folder_paths is None:
+            folder_paths = [MOST_RECENT_FOLDER]
+        elif isinstance(folder_paths, Path):
+            folder_paths = [folder_paths]
+        else:
+            folder_paths = list(folder_paths)  # falls tuple, generator, etc.
+
+        self.folder_paths: list[Path] = folder_paths
         
     def find_scanfiles(self,merge_batches = False) -> list[Path]:
-        file_list: list[Path] = sorted(self.folder_path.glob(SCAN_FILE_PATTERN))
-
-        if not file_list:
-            return []
-
-        if self.folder_path == MOST_RECENT_FOLDER:
-            txt_files = sorted(self.folder_path.glob(BATCH_PATTERN))
-
-            if txt_files:
-                newest_batch_stem = txt_files[-1].stem
-                if merge_batches == True:
-                    file_list = [f for f in file_list]
-                else:
-                    file_list = [f for f in file_list if f.stem >= newest_batch_stem]
+        scans_paths: list[list[Path]] = []
+        
+        for f in self.folder_paths:
+            
+            file_list: list[Path] = sorted(f.glob(SCAN_FILE_PATTERN))
 
             if not file_list:
-                return []
+                continue
 
-            first_size = file_list[0].stat().st_size
-            last_size = file_list[-1].stat().st_size
+            if f == MOST_RECENT_FOLDER:
+                txt_files = sorted(f.glob(BATCH_PATTERN))
 
-            if last_size < first_size:
-                file_list = file_list[:-1]
-                self.batch_finished = False
+                if txt_files:
+                    newest_batch_stem = txt_files[-1].stem
+                    if merge_batches == True:
+                        file_list = [f for f in file_list]
+                    else:
+                        file_list = [f for f in file_list if f.stem >= newest_batch_stem]
+
+                if not file_list:
+                    continue
+
+                scans_paths.append(file_list)
             else:
-                self.batch_finished = True
+                scans_paths.append(file_list)
             
-            return file_list
-        else:
-            self.batch_finished = True
-            return file_list
+        return scans_paths
 
     def find_most_recent_scanfile(self) -> Path:
         file_list = list(MOST_RECENT_FOLDER.glob(SCAN_FILE_PATTERN)) 
@@ -54,10 +56,15 @@ class DatFinder:
 
         return file_list[-1]
 
-    def find_datafiles(self)-> list[Path]:
-        all_files = list(self.folder_path.glob(ION_FILE_PATTERN))
-        all_files.sort()
-        self.batch_finished = True
+    def find_datafiles(self)-> list[list[Path]]:
+        scans_paths: list[list[Path]] = []
         
-        return all_files
+        for f in self.folder_paths:
+            all_files = list(f.glob(ION_FILE_PATTERN))
+            all_files.sort()
+            
+            scans_paths.append(all_files)
+        
+        return scans_paths
+
     

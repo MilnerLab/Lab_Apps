@@ -47,15 +47,19 @@ class IonData:
         sem  = float(std / np.sqrt(N)) if (N > 1 and np.isfinite(std)) else np.nan
         self.c2t = C2TData(mean, sem)
         
-    def apply_config(self, config: IonDataAnalysisConfig):
-        
-                
-        
-        for point in self.points:
-            point.subtract(config.center)
-            point.affine_transform(config.transform_parameter)
-            point.rotate(config.angle)
-        self.points = [p for p in self.points if config.analysis_zone.is_in_range(p.distance_from_center())]
+    
    
 
+@dataclass
+class RawScanData:
+    ion_datas: list[IonData]
+    config: IonDataAnalysisConfig 
     
+    def apply_config(self):
+        for d in self.ion_datas:
+            for point in d.points:
+                point.subtract(self.config.center)
+                point.affine_transform(self.config.transform_parameter)
+                point.rotate(self.config.angle)
+            d.points = [p for p in d.points if self.config.analysis_zone.is_in_range(p.distance_from_center())]
+        
