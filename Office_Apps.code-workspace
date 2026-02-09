@@ -87,10 +87,10 @@
       "justMyCode": true
     },
         {
-      "name": "Debug plotting_scripts test",
+      "name": "Debug plotting_scripts ocs jet",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder:Office_Apps}/manuscript_plotting_scripts/manuscript_test.py",
+      "program": "${workspaceFolder:Office_Apps}/manuscript_plotting_scripts/ocs/jet.py",
 	  "cwd": "${workspaceFolder:Office_Apps}",
 	   "env": { "PYTHONPATH": "${workspaceFolder:Office_Apps}" },
       "console": "integratedTerminal",

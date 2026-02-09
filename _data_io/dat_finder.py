@@ -10,8 +10,35 @@ SCAN_FILE_PATTERN = '*ScanFile.dat'
 BATCH_PATTERN = '*ScanFile.txt'
 ION_FILE_PATTERN = '*mm.dat'
 
+def convert_to_system_path(paths: list[Path]) -> list[Path]:
+    """
+    Treat incoming paths as relative to MOST_RECENT_FOLDER and return
+    paths that work on the current OS.
+
+    Fixes cases like '20260206\\Scan7' on Linux by splitting backslashes
+    into proper path parts.
+    """
+    out: list[Path] = []
+
+    for p in paths:
+        s = str(p)
+
+        # If it's already absolute, keep it as-is (extra safety)
+        if Path(s).is_absolute():
+            out.append(Path(s))
+            continue
+
+        # Normalize separators for relative paths:
+        # Turn both "\" and "/" into the current OS semantics via parts
+        parts = [part for part in s.replace("\\", "/").split("/") if part]
+        rel = Path(*parts)
+
+        out.append(MOST_RECENT_FOLDER / rel)
+
+    return out
+
 class DatFinder:
-    def __init__(self, folder_paths: Path | list[Path] | None = None):
+    def __init__(self, folder_paths: Path | list[Path] | None = None, is_full_path: bool = False):
         if folder_paths is None:
             folder_paths = [MOST_RECENT_FOLDER]
         elif isinstance(folder_paths, Path):
@@ -19,7 +46,10 @@ class DatFinder:
         else:
             folder_paths = list(folder_paths)  # falls tuple, generator, etc.
 
-        self.folder_paths: list[Path] = folder_paths
+        if not is_full_path and folder_paths is not None:
+            self.folder_paths: list[Path] = convert_to_system_path(folder_paths)
+        else:   
+            self.folder_paths: list[Path] = folder_paths
         
     def find_scanfiles(self,merge_batches = False) -> list[Path]:
         scans_paths: list[list[Path]] = []
