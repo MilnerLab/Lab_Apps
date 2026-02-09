@@ -75,6 +75,16 @@
 	   "env": { "PYTHONPATH": "${workspaceFolder:Office_Apps}" },
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+        {
+      "name": "Debug plotting_scripts ocs",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder:Office_Apps}/manuscript_plotting_scripts/manuscript_ocs.py",
+	  "cwd": "${workspaceFolder:Office_Apps}",
+	   "env": { "PYTHONPATH": "${workspaceFolder:Office_Apps}" },
+      "console": "integratedTerminal",
+      "justMyCode": true
     }
   ]
 },
