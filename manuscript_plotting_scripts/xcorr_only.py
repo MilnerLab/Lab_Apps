@@ -202,7 +202,7 @@ a.set_ylim([0,120])
 
 #a.set_ylim([0,120])
 #plot_nyquist_frequency(a, plottable_nyquist_1)
-mainfig.suptitle(PlotTitle)
+mainfig.suptitle(PlotTitle,fontsize=USEFONTSIZE,color='BLUE')
 
 mainfig.savefig(fig_filename,format='png')
 plt.show()
