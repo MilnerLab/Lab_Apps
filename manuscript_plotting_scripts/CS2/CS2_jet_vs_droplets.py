@@ -25,7 +25,7 @@ from base_core.math.models import Angle, Point, Range
 from base_core.plotting.enums import PlotColor
 from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
-
+print('Dependencies loaded.')
 
 STFTWINDOWSIZE = Time(180,Prefix.PICO)  
 EARLIEST_DELAY_PS = -550
@@ -36,16 +36,18 @@ USEFONTSIZE = 16
 
 #FUNCTION TO GENERATE THE PLOTTABLE DATA
 def calculating(folders: list[Path], configs: list[IonDataAnalysisConfig]) -> tuple[AveragedScansData, AggregateSpectrogram]:
-    
+    print('Starting: ',folders)
     
     scans_paths = DatFinder(folders).find_datafiles() #Change this if you want a specific path rather than the Droplets folder
     raw_datas = load_ion_data(scans_paths, configs)
+    print('Data loaded!')
     save_path = create_save_path_for_calc_ScanFile(folders[0], str(raw_datas[0].ion_datas[0].run_id))
     calculated_scans = run_pipeline(raw_datas, save_path)
     averagedScanData = average_scans(calculated_scans)
     config = StftAnalysisConfig(calculated_scans)
     config.stft_window_size = STFTWINDOWSIZE 
     resampled_scans = resample_scans(calculated_scans, config.axis)
+    print('Scans resampled!')
     spectrogram = calculate_averaged_spectrogram(resampled_scans, config)
     
     return (averagedScanData, spectrogram)
@@ -53,37 +55,73 @@ def calculating(folders: list[Path], configs: list[IonDataAnalysisConfig]) -> tu
 
 #Path to save figure in
 fig_filedir = r"Z:\Droplets\plots" 
-fig_filename = fig_filedir + r"\\jet_vs_droplets_TEMP.png" #Name the file to save here
+fig_filename = fig_filedir + r"\\CS2_jet_vs_droplets_TEMP.png" #Name the file to save here
 
 #Plot on top
-PlotTitle = r"OCS - same centrifuge, same day." "\n" "20260210 Scans 3 and 4"
+PlotTitle = r"CS$_2$ with fastest usCFG" "\n" "202512 10th + 12th + 13th"
 
 #JET EXPERIMENT
-# GA=26, DA = 16.3mm
+#GA=26mm, DA=15.9mm
 configs_1: list[IonDataAnalysisConfig] = []
 folders_1: list[Path] = []
 
-folders_1.append(Path(r"202602010\Scan3")) #EXTRA ZERO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+folders_1.append(Path(r"20251210\JSS3"))  #20251210 JSS3 is dense throughout the centrifuge
 configs_1.append(IonDataAnalysisConfig(
-    delay_center= Length(92.654-POSZEROSHIFT, Prefix.MILLI),
-    center=Point(203, 202),
+    delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
+    center=Point(195, 197),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](30, 90),
-    transform_parameter= 0.78))
+    analysis_zone= Range[int](20, 120),
+    transform_parameter= 0.9))
+
+folders_1.append(Path(r"20251210\JSS4"))  #20251210 JSS4 is dense before the centrifuge
+configs_1.append(IonDataAnalysisConfig(
+    delay_center= Length(89.2-POSZEROSHIFT, Prefix.MILLI),
+    center=Point(195, 197),
+    angle= Angle(12, AngleUnit.DEG),
+    analysis_zone= Range[int](20, 120),
+    transform_parameter= 0.9))
 
 
 #DROPLETS EXPERIMENT
-# GA=0, DA = 16.6mm
+#Same GA=26mm, DA = 15.9mm.
+#20251212 Scan 4
+#20251213 scan 1, 2, and 3. BUT! The last 2 scans in scan3 are bad
 configs_2: list[IonDataAnalysisConfig] = []
 folders_2: list[Path] = []
 
-folders_2.append(Path(r"202602010\Scan4")) #EXTRA ZERO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+folders_2.append(Path(r"20251212\Scan4")) #Combination of 20251212 and 20251213. 
 configs_2.append(IonDataAnalysisConfig(
-    delay_center= Length(92.654-POSZEROSHIFT, Prefix.MILLI),
-    center=Point(175, 205),
+    delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
+    center=Point(194, 204),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](60, 90),
-    transform_parameter= 0.75))
+    analysis_zone= Range[int](60, 120),
+    transform_parameter= 0.79))
+
+folders_2.append(Path(r"20251213\Scan1")) #Combination of 20251212 and 20251213. 
+configs_2.append(IonDataAnalysisConfig(
+    delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
+    center=Point(194, 204),
+    angle= Angle(12, AngleUnit.DEG),
+    analysis_zone= Range[int](60, 120),
+    transform_parameter= 0.79))
+
+folders_2.append(Path(r"20251213\Scan2")) #Combination of 20251212 and 20251213. 
+configs_2.append(IonDataAnalysisConfig(
+    delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
+    center=Point(194, 204),
+    angle= Angle(12, AngleUnit.DEG),
+    analysis_zone= Range[int](60, 120),
+    transform_parameter= 0.79))
+
+
+folders_2.append(Path(r"20251213\Scan3")) #Combination of 20251212 and 20251213. 
+configs_2.append(IonDataAnalysisConfig(
+    delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
+    center=Point(194, 204),
+    angle= Angle(12, AngleUnit.DEG),
+    analysis_zone= Range[int](60, 120),
+    transform_parameter= 0.79))
+
 
 #--------------------------------------------------------------------------------------------------
 #Update the matplotlib settings
@@ -186,7 +224,7 @@ mpl.rcParams.update({
 #Pipeline 
 plottable_scan_1, plottable_spectrogram_1 = calculating(folders_1, configs_1)
 plottable_scan_2, plottable_spectrogram_2 = calculating(folders_2, configs_2)
-
+print('Done calculating!')
 #Plot histogram to check centre (change variable here)
 if False:
     TestIndex = 4 #Delay point
@@ -215,7 +253,7 @@ mainfig, (axs) = plt.subplots(
 
 #Plot first experiment in top row
 a = axs[0,0]
-plot_averaged_scan(a, plottable_scan_1, PlotColor.BLUE,ecolor=PlotColor.RED,marker='d', label = "80 PSI Jet")
+plot_averaged_scan(a, plottable_scan_1, PlotColor.BLACK,ecolor=PlotColor.RED,marker='d', label = "120 PSI Jet")
 a.set_xlim([EARLIEST_DELAY_PS,LATEST_DELAY_PS])
 a.legend(loc="lower center")
 a = axs[0,1]
@@ -226,14 +264,14 @@ plot_nyquist_frequency(a, plottable_scan_1)
 
 #Plot second experiment in bottom row
 a = axs[1,0]
-plot_averaged_scan(a, plottable_scan_2, PlotColor.BLUE,ecolor=PlotColor.RED,marker='d',label="30 Bar / 18 K Droplets")
+plot_averaged_scan(a, plottable_scan_2, PlotColor.BLUE,ecolor=PlotColor.RED,marker='d',label="30 Bar / 16 K Droplets")
 a.legend()
 a = axs[1,1]
 plot_Spectrogram(a, plottable_spectrogram_2)
 a.set_ylim([0,120])
 plot_nyquist_frequency(a, plottable_scan_2)
 
-mainfig.suptitle(PlotTitle,fontsize=USEFONTSIZE,color='red')
+mainfig.suptitle(PlotTitle,fontsize=USEFONTSIZE,color='GRAY')
 
 mainfig.savefig(fig_filename,format='png')
 plt.show()

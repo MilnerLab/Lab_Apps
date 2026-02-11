@@ -53,7 +53,7 @@ def calculating(folders: list[Path], configs: list[IonDataAnalysisConfig]) -> tu
 
 #Path to save figure in
 fig_filedir = r"Z:\Droplets\plots" 
-fig_filename = fig_filedir + r"\\jet_vs_droplets_TEMP.png" #Name the file to save here
+fig_filename = fig_filedir + r"\\OCS_jet_vs_droplets_TEMP.png" #Name the file to save here
 
 #Plot on top
 PlotTitle = r"OCS - same centrifuge, same day." "\n" "20260210 Scans 3 and 4"
