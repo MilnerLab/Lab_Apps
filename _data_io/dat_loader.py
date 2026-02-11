@@ -6,6 +6,7 @@ from base_core.quantities.constants import SPEED_OF_LIGHT
 from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
 import numpy as np
+import pandas as pd
 
 from _domain.models import C2TData, IonData, LoadableScanData, RawScanData
 
@@ -88,8 +89,14 @@ def load_ion_data(scans_paths: list[list[Path]], configs: list[IonDataAnalysisCo
 
     return raw_scans
 
+def load_xcorr_means(file_path:Path,pos_tzero:Length) -> LoadableScanData:
+    ScopeData = np.array(pd.read_csv(file_path,header=None,sep='\t',lineterminator='\n',dtype=float))
+    delay = [calculate_time_delay(Length(d,Prefix.MILLI),pos_tzero) for d in ScopeData[:,0]]
+    signal = np.average(ScopeData[:,1:-1],axis=1)
+    error = np.std(ScopeData[:,1:-1],axis=1)/np.sqrt(ScopeData.shape[1] - 1)
 
-
+    values = [C2TData(signal[i], error[i]) for i in range(len(signal))]
+    return LoadableScanData(delay = delay, c2t = values, file_path = file_path)
 
 ###########
 #  Helper functions
