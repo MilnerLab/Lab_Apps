@@ -8,5 +8,7 @@ from base_core.plotting.enums import PlotColor
 
 def plot_averaged_scan(ax: Axes, data: AveragedScansData, color: PlotColor = PlotColor.RED, ecolor: PlotColor=PlotColor.RED, label: str = "",marker = 'o') -> None:
     n_files = len(data.file_names)
-    label = f"{n_files} avg files" + label
+    if marker == 'o':
+        label = f"{n_files} avg files" + label
+        #sorry but this was the easiest way to remove the N avg files for my plot without breaking plotbot :) 
     plot_ScanData(ax, data, label,color,ecolor,marker)
