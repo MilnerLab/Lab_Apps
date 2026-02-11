@@ -1,5 +1,6 @@
 print('Code start!')
 from pathlib import Path
+from altair import FontWeight
 import matplotlib as mpl
 
 from matplotlib import pyplot as plt
@@ -27,9 +28,11 @@ from base_core.quantities.models import Length, Time
 
 
 STFTWINDOWSIZE = Time(180,Prefix.PICO)  
-EARLIEST_DELAY_PS = -450
+EARLIEST_DELAY_PS = -550
 LATEST_DELAY_PS = -EARLIEST_DELAY_PS
-POSZEROSHIFT = 6.8 #millimetres :)
+POSZEROSHIFT = 0 #millimetres :)
+
+USEFONTSIZE = 16
 
 #FUNCTION TO GENERATE THE PLOTTABLE DATA
 def calculating(folders: list[Path], configs: list[IonDataAnalysisConfig]) -> tuple[AveragedScansData, AggregateSpectrogram]:
@@ -53,7 +56,7 @@ fig_filedir = r"Z:\Droplets\plots"
 fig_filename = fig_filedir + r"\\jet_vs_droplets_TEMP.png" #Name the file to save here
 
 #Plot on top
-PlotTitle = r'OCS - same centrifuge, same day. '
+PlotTitle = r"OCS - same centrifuge, same day." "\n" "20260210 Scans 3 and 4"
 
 #JET EXPERIMENT
 # GA=26, DA = 16.3mm
@@ -90,7 +93,7 @@ mpl.rcParams.update({
   
     # --- Axes ---
     "axes.titlesize": "medium",
-    "axes.labelsize": 9,
+    "axes.labelsize": USEFONTSIZE,
     "axes.formatter.use_mathtext": True,
     "axes.linewidth": 0.5,
     #"axes.grid": True,
@@ -128,7 +131,7 @@ mpl.rcParams.update({
     "xtick.minor.bottom": True,
     "xtick.major.pad": 5.0,
     "xtick.minor.pad": 5.0,
-    "xtick.labelsize": 9,
+    "xtick.labelsize": USEFONTSIZE,
 
     # --- Ticks (Y) ---
     "ytick.left": True,
@@ -144,26 +147,27 @@ mpl.rcParams.update({
     #"ytick.minor.left": True,
     "ytick.major.pad": 5.0,
     #"ytick.minor.pad": 5.0,
-    "ytick.labelsize": 9,
+    "ytick.labelsize": USEFONTSIZE,
     
     
     # --- Legend ---
     "legend.frameon": True,
-    "legend.fontsize": 8,
+    "legend.fontsize": 12,
     "legend.handlelength": 1.375,
     "legend.labelspacing": 0.4,
     "legend.columnspacing": 1,
     "legend.facecolor": "white",
     "legend.edgecolor": "white",
     "legend.framealpha": 1,
-    "legend.title_fontsize": 8,
+    "legend.title_fontsize": 12,
+    "legend.loc": "lower center", #location is loc
  
     # --- Figure size ---
     "figure.figsize": (3.375, 3.6), #1- column fig
     #"figure.figsize": (6.75, 6.75), #approx. 2- column fig
     "figure.subplot.left": 0.125,
     "figure.subplot.bottom": 0.175,
-    "figure.subplot.top": 0.95,
+    "figure.subplot.top": 0.9,
     "figure.subplot.right": 0.95,
     "figure.autolayout": True,
 
@@ -171,7 +175,7 @@ mpl.rcParams.update({
     "text.usetex": False,       #<------------------------------------------------<-----<_<_<_ LATEX 
     #"mathtext.fontset": "cm",
     "font.family": "serif",
-    "font.serif": ["cmr10"]
+    "font.serif": ["cmr10"],
 
 })
 
@@ -206,15 +210,14 @@ mainfig, (axs) = plt.subplots(
             figsize=(10, 8),
             sharex=True, 
             gridspec_kw={'hspace': 0,'wspace' : 0.275},
+            
         )
-
 
 #Plot first experiment in top row
 a = axs[0,0]
-plot_averaged_scan(a, plottable_scan_1, PlotColor.BLUE,ecolor=PlotColor.RED)
+plot_averaged_scan(a, plottable_scan_1, PlotColor.BLUE,ecolor=PlotColor.RED,marker='d', label = "80 PSI Jet")
 a.set_xlim([EARLIEST_DELAY_PS,LATEST_DELAY_PS])
-
-#a.legend(loc="upper right")
+a.legend(loc="lower center")
 a = axs[0,1]
 plot_Spectrogram(a, plottable_spectrogram_1)
 a.set_ylim([0,120])
@@ -223,14 +226,14 @@ plot_nyquist_frequency(a, plottable_scan_1)
 
 #Plot second experiment in bottom row
 a = axs[1,0]
-plot_averaged_scan(a, plottable_scan_2, PlotColor.BLUE,ecolor=PlotColor.RED)
-#a.legend(loc="upper right")
+plot_averaged_scan(a, plottable_scan_2, PlotColor.BLUE,ecolor=PlotColor.RED,marker='d',label="30 Bar / 18 K Droplets")
+a.legend()
 a = axs[1,1]
 plot_Spectrogram(a, plottable_spectrogram_2)
 a.set_ylim([0,120])
 plot_nyquist_frequency(a, plottable_scan_2)
 
-mainfig.suptitle(PlotTitle)
+mainfig.suptitle(PlotTitle,fontsize=USEFONTSIZE,color='red')
 
 mainfig.savefig(fig_filename,format='png')
 plt.show()
