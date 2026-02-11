@@ -21,10 +21,15 @@ class ResampledScan(ScanDataBase):
 
         x = t - t[0]
 
-        fit = fit_gaussian(x, y)
+        mask = np.isfinite(y) & np.isfinite(x)
+        if mask.sum() < 4:  # je nach Fit mindestens ein paar Punkte nötig
+            return (y - np.nan).tolist()  # oder: return y.tolist()
+
+        fit = fit_gaussian(x[mask], y[mask])
         g = gaussian(x, fit.amplitude, fit.center, fit.sigma, fit.offset)
 
         return (y - g).tolist()
+
         
 
 @dataclass(frozen=True)
