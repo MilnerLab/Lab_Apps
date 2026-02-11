@@ -22,9 +22,15 @@ class StftAnalysisConfig:
     def set_from_data(self, scan_data: list[LoadableScanData]) -> None:
         starts = [scan.delay[0] for scan in scan_data]
         ends = [scan.delay[-1] for scan in scan_data]
-        
+        min_delay_spacing = min(
+                b - a
+                for scan in scan_data
+                if len(scan.delay) > 1
+                for a, b in zip(scan.delay, scan.delay[1:])
+            )
+
         furthest_scan = scan_data[ends.index(max(ends))]
-        self.resample_time = Time(furthest_scan.delay[-1] - furthest_scan.delay[-2])
+        self.resample_time = Time(min_delay_spacing)
         
         current_delay = min(starts)
         while(current_delay <= max(ends)):
