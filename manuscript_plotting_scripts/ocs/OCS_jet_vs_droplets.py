@@ -26,6 +26,7 @@ from base_core.plotting.enums import PlotColor
 from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
 
+DROPLETRADIUSMIN = 60
 
 STFTWINDOWSIZE = Time(180,Prefix.PICO)  
 EARLIEST_DELAY_PS = -550
@@ -82,7 +83,7 @@ configs_2.append(IonDataAnalysisConfig(
     delay_center= Length(92.654-POSZEROSHIFT, Prefix.MILLI),
     center=Point(175, 205),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](60, 90),
+    analysis_zone= Range[int](DROPLETRADIUSMIN, 90),
     transform_parameter= 0.75))
 
 #--------------------------------------------------------------------------------------------------

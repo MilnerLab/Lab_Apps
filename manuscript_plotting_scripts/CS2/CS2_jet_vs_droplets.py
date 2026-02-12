@@ -27,7 +27,7 @@ from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
 print('Dependencies loaded.')
 
-DROPLETRADIUSMIN = 85
+DROPLETRADIUSMIN = 60
 STFTWINDOWSIZE = Time(180,Prefix.PICO)  
 EARLIEST_DELAY_PS = -550
 LATEST_DELAY_PS = -EARLIEST_DELAY_PS

@@ -87,7 +87,7 @@
       "justMyCode": true
     },
         {
-      "name": "Debug plotting_scripts ocs jet only",
+      "name": "Debug plotting_scripts OCS jet only",
       "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder:Office_Apps}/manuscript_plotting_scripts/ocs/OCS_jet_only.py",
@@ -107,7 +107,7 @@
       "justMyCode": true
     },
         {
-      "name": "Debug plotting_scripts jet vs droplets",
+      "name": "Debug plotting_scripts OCS jet vs droplets",
       "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder:Office_Apps}/manuscript_plotting_scripts/ocs/OCS_jet_vs_droplets.py",
