@@ -7,7 +7,7 @@ from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Frequency, Time
 import numpy as np
 
-from _domain.models import  C2TData, ScanDataBase
+from _domain.models import  Measurement, ScanDataBase
 
 @dataclass(frozen=True)
 class ResampledScan(ScanDataBase):
@@ -16,8 +16,8 @@ class ResampledScan(ScanDataBase):
     
     
     def detrend(self) -> list[float]:
-        y = np.asarray([c.value for c in self.c2t], dtype=float)
-        t = np.asarray([d.value(Prefix.PICO) for d in self.delay], dtype=float)
+        y = np.asarray([c.value for c in self.measured_values], dtype=float)
+        t = np.asarray([d.value(Prefix.PICO) for d in self.delays], dtype=float)
 
         x = t - t[0]
 

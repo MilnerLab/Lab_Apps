@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-from _domain.models import C2TData, LoadableScanData
+from _domain.models import Measurement, LoadableScanData
 from apps.scan_averaging.domain.models import AveragedScansData
 
 
@@ -43,7 +43,7 @@ def average_scans(scans: List[LoadableScanData], *, key_digits: int = 12) -> Ave
     # --- build union x-axis (keep first seen Time object for each key) ------
     key_to_time: dict[float, Time] = {}
     for s in scans:
-        for t in s.delay:
+        for t in s.delays:
             k = _key(t)
             if k not in key_to_time:
                 key_to_time[k] = t
@@ -60,10 +60,10 @@ def average_scans(scans: List[LoadableScanData], *, key_digits: int = 12) -> Ave
 
     # --- map scans onto union axis -----------------------------------------
     for i, s in enumerate(scans):
-        if len(s.delay) != len(s.c2t):
+        if len(s.delays) != len(s.measured_values):
             raise ValueError(f"Scan {i} has mismatched delay/c2t lengths.")
 
-        for t, c in zip(s.delay, s.c2t):
+        for t, c in zip(s.delays, s.measured_values):
             j = key_to_idx[_key(t)]
             y_mat[i, j] = float(c.value)
             s_mat[i, j] = float(c.error)
@@ -80,13 +80,13 @@ def average_scans(scans: List[LoadableScanData], *, key_digits: int = 12) -> Ave
     avg_sigma[mask] = np.sqrt(sum_sq[mask]) / count[mask]
 
     # --- build output -------------------------------------------------------
-    avg_c2t: list[C2TData] = [
-        C2TData(value=float(v), error=float(e))
+    avg_c2t: list[Measurement] = [
+        Measurement(value=float(v), error=float(e))
         for v, e in zip(avg_y, avg_sigma)
     ]
 
     return AveragedScansData(
-        delay=x_union.copy(),
-        c2t=avg_c2t,
+        delays=x_union.copy(),
+        measured_values=avg_c2t,
         file_names=[s.file_path for s in scans],
     )

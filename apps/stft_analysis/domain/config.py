@@ -25,8 +25,8 @@ class StftAnalysisConfig:
         min_delay_spacing = min(
                 b - a
                 for scan in scan_data
-                if len(scan.delay) > 1
-                for a, b in zip(scan.delay, scan.delay[1:])
+                if len(scan.delays) > 1
+                for a, b in zip(scan.delays, scan.delays[1:])
             )
 
         self.resample_time = Time(min_delay_spacing)

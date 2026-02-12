@@ -20,7 +20,7 @@ def plot_single_scan(ax: Axes, data: LoadableScanData, show_ions: bool = False, 
     
     
     if isinstance(show_ions, bool) and show_ions:
-        delay = [t.value(Prefix.PICO) for t in data.delay]
+        delay = [t.value(Prefix.PICO) for t in data.delays]
         ions = np.asarray(data.ions_per_frame)
         # zweite y-Achse rechts
         ax_ions = ax.twinx()

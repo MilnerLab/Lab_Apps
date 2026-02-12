@@ -8,14 +8,14 @@ from base_core.quantities.models import Length, Time
 import numpy as np
 import pandas as pd
 
-from _domain.models import C2TData, IonData, LoadableScanData, RawScanData
+from _domain.models import Measurement, IonData, LoadableScanData, RawScanData
 
 
 
 def load_time_scan(path: Path) -> LoadableScanData:
 
     delays: list[Time] = []
-    c2ts: list[C2TData] = []
+    c2ts: list[Measurement] = []
     ions: list[float] = []
 
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
@@ -31,7 +31,7 @@ def load_time_scan(path: Path) -> LoadableScanData:
 
             try:
                 delay = Time(float(parts[1]), prefix=Prefix.PICO)
-                c2t = C2TData(float(parts[2]), float(parts[3]))
+                c2t = Measurement(float(parts[2]), float(parts[3]))
                 ion_count = float(parts[4])
             except ValueError:
                 continue
@@ -45,7 +45,7 @@ def load_time_scan(path: Path) -> LoadableScanData:
 
     file_name = path
 
-    return LoadableScanData(delay=delays, c2t=c2ts, file_path=file_name, ions_per_frame=ions)
+    return LoadableScanData(delays=delays, measured_values=c2ts, file_path=file_name, ions_per_frame=ions)
 
 
 def load_time_scans(paths: list[Path]) -> list[LoadableScanData]:
@@ -95,8 +95,8 @@ def load_xcorr_means(file_path:Path,pos_tzero:Length) -> LoadableScanData:
     signal = np.average(ScopeData[:,1:-1],axis=1)
     error = np.std(ScopeData[:,1:-1],axis=1)/np.sqrt(ScopeData.shape[1] - 1)
 
-    values = [C2TData(signal[i], error[i]) for i in range(len(signal))]
-    return LoadableScanData(delay = delay, c2t = values, file_path = file_path)
+    values = [Measurement(signal[i], error[i]) for i in range(len(signal))]
+    return LoadableScanData(delays = delay, measured_values = values, file_path = file_path)
 
 ###########
 #  Helper functions

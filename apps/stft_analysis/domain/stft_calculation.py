@@ -36,7 +36,7 @@ def calculate_spectrogram(resampled_scan: ResampledScan, config: StftAnalysisCon
     )
     # -----
     SpecSig = (np.abs(Zxx))**2
-    t_s = t_s + resampled_scan.delay[0] #convert back to ps and get time zero back
+    t_s = t_s + resampled_scan.delays[0] #convert back to ps and get time zero back
     
     delay: list[Time] = [Time(val) for val in t_s]                
     frequency: list[Frequency] = [Frequency(val) for val in f]

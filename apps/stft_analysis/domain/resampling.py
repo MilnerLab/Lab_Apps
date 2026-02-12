@@ -5,11 +5,11 @@ import numpy as np
 from scipy.interpolate import CubicSpline, make_interp_spline
 
 from apps.stft_analysis.domain.models import ResampledScan
-from _domain.models import C2TData, LoadableScanData
+from _domain.models import Measurement, LoadableScanData
 
 def resample_scan(raw: LoadableScanData, axis: list[Time]) -> ResampledScan:
-    x = raw.delay
-    y = [c.value for c in raw.c2t]
+    x = raw.delays
+    y = [c.value for c in raw.measured_values]
 
     mask_measured = list((np.array(axis) >= x[0]) & (np.array(axis) <= x[-1]))
     resample_axis = np.where(mask_measured, axis, np.nan)
@@ -17,11 +17,11 @@ def resample_scan(raw: LoadableScanData, axis: list[Time]) -> ResampledScan:
     #cs = CubicSpline(x, y, extrapolate=True)
     cs = make_interp_spline(x,y,1)
     y_res = cs(resample_axis)
-    new_c2t = [C2TData(y, 0) for y in y_res]
+    new_c2t = [Measurement(y, 0) for y in y_res]
 
     return ResampledScan(
-        delay=axis.copy(),
-        c2t=new_c2t,
+        delays=axis.copy(),
+        measured_values=new_c2t,
         file_path=raw.file_path,
         scan_range=Range(min(resample_axis), max(resample_axis))
     )

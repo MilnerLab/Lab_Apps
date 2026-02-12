@@ -12,14 +12,14 @@ import numpy as np
 
 
 @dataclass(frozen=True)
-class C2TData:
+class Measurement:
     value: float
     error: float
 
 @dataclass(frozen=True)
 class ScanDataBase:
-    delay: list[Time]
-    c2t: list[C2TData]
+    delays: list[Time]
+    measured_values: list[Measurement]
 
 @dataclass(frozen=True)
 class LoadableScanData(ScanDataBase):
@@ -32,7 +32,7 @@ class IonData:
     run_id: int
     delay: Time
     points: list[Point]
-    c2t: C2TData | None = None
+    c2t: Measurement | None = None
 
     def calculate_avg_c2t(self):
         x0 = [point.x for point in self.points]
@@ -47,7 +47,7 @@ class IonData:
         mean = float(np.mean(c2))
         std  = float(np.std(c2, ddof=1)) if N > 1 else np.nan
         sem  = float(std / np.sqrt(N)) if (N > 1 and np.isfinite(std)) else np.nan
-        self.c2t = C2TData(mean, sem)
+        self.c2t = Measurement(mean, sem)
         
     def get_2D_histogram(
         self,

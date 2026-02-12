@@ -7,9 +7,9 @@ from _domain.models import ScanDataBase
 
 
 def plot_ScanData(ax: Axes, data: ScanDataBase, label:str, color: PlotColor = PlotColor.BLUE, ecolor: PlotColor = PlotColor.BLACK,marker = 'o') -> None:
-    x = [time.value(Prefix.PICO) for time in data.delay]
-    y = np.array([c.value for c in data.c2t])
-    error = np.array([c.error for c in data.c2t])
+    x = [time.value(Prefix.PICO) for time in data.delays]
+    y = np.array([c.value for c in data.measured_values])
+    error = np.array([c.error for c in data.measured_values])
 
     ax.plot(
         x,
@@ -32,12 +32,12 @@ def plot_ScanData(ax: Axes, data: ScanDataBase, label:str, color: PlotColor = Pl
     ax.set_ylabel(r"$\langle \cos^2 \theta_\mathrm{2D} \rangle$")
     
 def plot_GaussianFit(ax: Axes, data: ScanDataBase) -> None:
-    gauss = fit_gaussian(data.delay, [c2t.value for c2t in data.c2t])
+    gauss = fit_gaussian(data.delays, [c2t.value for c2t in data.measured_values])
     
-    resampling_const = len(data.delay) * 100
+    resampling_const = len(data.delays) * 100
     
-    y = [y for y in gauss.get_curve(np.linspace(data.delay[0], data.delay[-1], resampling_const))]
-    x = np.linspace(data.delay[0].value(Prefix.PICO), data.delay[-1].value(Prefix.PICO), resampling_const)
+    y = [y for y in gauss.get_curve(np.linspace(data.delays[0], data.delays[-1], resampling_const))]
+    x = np.linspace(data.delays[0].value(Prefix.PICO), data.delays[-1].value(Prefix.PICO), resampling_const)
     
     ax.plot(x, y)
     

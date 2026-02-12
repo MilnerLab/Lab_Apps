@@ -23,8 +23,8 @@ def plot_Spectrogram(ax: Axes, data: SpectrogramBase, v_range: Range[float] = Ra
     
 def plot_nyquist_frequency(ax: Axes, data: ScanDataBase) -> None:
     
-    delay = [d.value(Prefix.PICO) for d in data.delay]
-    frequencies = 1/np.diff(data.delay)/2
+    delay = [d.value(Prefix.PICO) for d in data.delays]
+    frequencies = 1/np.diff(data.delays)/2
     frequency = [Frequency(f).value(Prefix.GIGA) for f in frequencies]
     ax.plot(
         delay[0:-1],

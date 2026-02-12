@@ -1,7 +1,7 @@
 
 from pathlib import Path
 from apps.c2t_calculation.domain.config import IonDataAnalysisConfig
-from _domain.models import C2TData, IonData, LoadableScanData, RawScanData
+from _domain.models import Measurement, IonData, LoadableScanData, RawScanData
 from base_core.quantities.models import Time
 
 
@@ -11,7 +11,7 @@ def run_pipeline(raw_datas: list[RawScanData], save_path: Path = None) -> list[L
     for raw_data in raw_datas:
         
         delays: list[Time] = []
-        c2t: list[C2TData] = []
+        c2t: list[Measurement] = []
 
         raw_data.apply_config()
         
