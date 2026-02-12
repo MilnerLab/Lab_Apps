@@ -27,6 +27,7 @@ from base_core.quantities.enums import Prefix
 from base_core.quantities.models import Length, Time
 print('Dependencies loaded.')
 
+DROPLETRADIUSMIN = 85
 STFTWINDOWSIZE = Time(180,Prefix.PICO)  
 EARLIEST_DELAY_PS = -550
 LATEST_DELAY_PS = -EARLIEST_DELAY_PS
@@ -94,7 +95,7 @@ configs_2.append(IonDataAnalysisConfig(
     delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
     center=Point(194, 204),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](60, 120),
+    analysis_zone= Range[int](DROPLETRADIUSMIN, 120),
     transform_parameter= 0.79))
 
 folders_2.append(Path(r"20251213\Scan1")) #Combination of 20251212 and 20251213. 
@@ -102,7 +103,7 @@ configs_2.append(IonDataAnalysisConfig(
     delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
     center=Point(194, 204),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](60, 120),
+    analysis_zone= Range[int](DROPLETRADIUSMIN, 120),
     transform_parameter= 0.79))
 
 folders_2.append(Path(r"20251213\Scan2")) #Combination of 20251212 and 20251213. 
@@ -110,7 +111,7 @@ configs_2.append(IonDataAnalysisConfig(
     delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
     center=Point(194, 204),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](60, 120),
+    analysis_zone= Range[int](DROPLETRADIUSMIN, 120),
     transform_parameter= 0.79))
 
 
@@ -119,9 +120,8 @@ configs_2.append(IonDataAnalysisConfig(
     delay_center= Length(90.55-POSZEROSHIFT, Prefix.MILLI),
     center=Point(194, 204),
     angle= Angle(12, AngleUnit.DEG),
-    analysis_zone= Range[int](60, 120),
+    analysis_zone= Range[int](DROPLETRADIUSMIN, 120),
     transform_parameter= 0.79))
-
 
 #--------------------------------------------------------------------------------------------------
 #Update the matplotlib settings

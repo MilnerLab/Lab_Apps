@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from base_core.quantities.models import Time
 import numpy as np
 
-from _domain.models import LoadableScanData
+from _domain.models import ScanDataBase
 
 @dataclass
 class StftAnalysisConfig:
@@ -12,14 +12,14 @@ class StftAnalysisConfig:
     stft_window_size: Time
     axis: list[Time]
     
-    def __init__(self, scan_data: list[LoadableScanData], stft_window_size: Time | None = None) -> None:
+    def __init__(self, scan_data: list[ScanDataBase], stft_window_size: Time | None = None) -> None:
         self.axis = []
         self.set_from_data(scan_data)
         
         if stft_window_size is not None:
             self.stft_window_size = stft_window_size
 
-    def set_from_data(self, scan_data: list[LoadableScanData]) -> None:
+    def set_from_data(self, scan_data: list[ScanDataBase]) -> None:
         starts = [scan.delay[0] for scan in scan_data]
         ends = [scan.delay[-1] for scan in scan_data]
         min_delay_spacing = min(
@@ -29,7 +29,6 @@ class StftAnalysisConfig:
                 for a, b in zip(scan.delay, scan.delay[1:])
             )
 
-        furthest_scan = scan_data[ends.index(max(ends))]
         self.resample_time = Time(min_delay_spacing)
         
         current_delay = min(starts)
