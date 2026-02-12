@@ -13,12 +13,27 @@ def calculate_spectrogram(resampled_scan: ResampledScan, config: StftAnalysisCon
     c2t = resampled_scan.detrend()
     
     
-    samplesperseg = min(int(len(c2t)/BACKUP_WINDFRACT), int(round(config.stft_window_size / config.resample_time)))
-    fs=1/config.resample_time
-    numoverlap = samplesperseg - 1
-    
-    f, t_s, Zxx = stft(c2t, fs=fs, nperseg=samplesperseg, noverlap=numoverlap,window='blackman')
+    samplesperseg = min(
+        int(len(c2t) / BACKUP_WINDFRACT),
+        int(round(config.stft_window_size / config.resample_time)),
+    )
+    samplesperseg = max(1, samplesperseg)
 
+    # Erzwinge ungerade Fensterlänge -> len(t_s) == len(c2t) bei hop=1
+    if samplesperseg % 2 == 0:
+        samplesperseg -= 1
+        samplesperseg = max(1, samplesperseg)
+
+    numoverlap = samplesperseg - 1 if samplesperseg > 1 else 0
+    fs=1/config.resample_time    
+    
+
+    f, t_s, Zxx = stft(
+        c2t, fs=fs,
+        nperseg=samplesperseg,
+        noverlap=numoverlap,
+        window="blackman",
+    )
     # -----
     SpecSig = (np.abs(Zxx))**2
     t_s = t_s + resampled_scan.delay[0] #convert back to ps and get time zero back
@@ -71,7 +86,7 @@ def calculate_averaged_spectrogram(
 
     # --- 3) Build global time grid: union of all STFT time axes -------
     time_axes = [np.asarray(s.delay, dtype=float) for s in specs]  # each (n_time_i,)
-    global_time = np.unique(np.concatenate(time_axes))             # (n_time_global,)
+    global_time = np.array(config.axis)            # (n_time_global,)
     n_time_global = global_time.size
 
     # --- 4) Allocate 3D cube and embed each spectrogram ---------------
@@ -83,19 +98,10 @@ def calculate_averaged_spectrogram(
     cube = np.full((len(specs), n_freq, n_time_global), np.nan, dtype=float)
 
     for i, s in enumerate(specs):
-        local_t = np.asarray(s.delay, dtype=float)    # (n_time_i,)
         P = np.asarray(s.power, dtype=float)          # (n_freq, n_time_i)  <- like SpecSig
 
-        idx = np.searchsorted(global_time, local_t)
-
-        # safety check (optional)
-        if not np.allclose(global_time[idx], local_t, rtol=1e-9, atol=1e-12):
-            raise ValueError(
-                "Local STFT time bins do not align with global time grid."
-            )
-
         # Now shapes match: cube[i, :, idx] and P are both (n_freq, n_time_i)
-        cube[i, :, idx] = P.T
+        cube[i, :, :] = P
 
     # Average over scans -> (n_freq, n_time_global)
     avg_power = np.nanmean(cube, axis=0)

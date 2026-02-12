@@ -5,7 +5,7 @@ from _domain.models import C2TData, IonData, LoadableScanData, RawScanData
 from base_core.quantities.models import Time
 
 
-def run_pipeline(raw_datas: list[RawScanData], save_path: Path) -> list[LoadableScanData]:
+def run_pipeline(raw_datas: list[RawScanData], save_path: Path = None) -> list[LoadableScanData]:
     scans: list[LoadableScanData] = []
     
     for raw_data in raw_datas:

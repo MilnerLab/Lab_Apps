@@ -23,7 +23,7 @@ class ScanDataBase:
 
 @dataclass(frozen=True)
 class LoadableScanData(ScanDataBase):
-    file_path: Path
+    file_path: Path = None
     ions_per_frame: list[float] | None = None
 
 

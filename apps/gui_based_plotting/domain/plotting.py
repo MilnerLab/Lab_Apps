@@ -8,6 +8,9 @@ from base_core.plotting.enums import PlotColor
 #Temporary plotting function for GUI_based_plotting....
 
 def plot_single_scan(ax: Axes, data: LoadableScanData, show_ions: bool = False, data_color: PlotColor = PlotColor.RED, ion_color: PlotColor = PlotColor.GRAY) -> None:
-    label = f"{data.file_path.stem}"
+    if data.file_path is not None:
+        label = f"{data.file_path.stem}"
+    else:
+        label = "Calculated Scan"
     plot_ScanData(ax, data, label, data_color)
 

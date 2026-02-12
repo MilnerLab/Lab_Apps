@@ -8,7 +8,11 @@ from _domain.plotting import plot_ScanData
 
 
 def plot_single_scan(ax: Axes, data: LoadableScanData, show_ions: bool = False, data_color: PlotColor = PlotColor.RED, ecolor: PlotColor = PlotColor.BLACK, ion_color: PlotColor = PlotColor.GRAY,marker='o') -> None:
-    label = f"{data.file_path.stem}"
+    if data.file_path is not None:
+        label = f"{data.file_path.stem}"
+    else:
+        label = "Calculated Scan"
+        
     plot_ScanData(ax, data, label, data_color,ecolor,marker)
     
     if data.ions_per_frame is None:
